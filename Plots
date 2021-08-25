@@ -1,0 +1,3 @@
+ggplot(data=BFSAmp, aes(x=H_Flow))+
+geom_line( aes(y=cps_bkg)) + geom_line( aes(y=bkg)) +
+scale_y_log10(,sec.axis=sec_axis())
