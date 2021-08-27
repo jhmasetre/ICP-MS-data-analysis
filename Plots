@@ -1,3 +1,16 @@
+## Plot all series together 
+ggplot(data=BFSAmp, aes(x=H_Flow, y=F19, by=Series, color=Series))+
+    geom_smooth(size=0.75) + geom_point(size=3) + 
+    scale_y_log10() + 
+    scale_color_manual(values=c("#fcb990", "#ed6f26", "#3558ab")) +
+    ggtitle("Fluorine") + 
+    labs(x="H-Flow (mL/min)", y="counts per second", title="Fluorine")+
+    theme(axis.ticks = element_line(size = 1, color="black"), axis.ticks.length = unit(.1, "cm"), axis.text = element_text(color="black", size=8))
+    
+## Add second axis
 ggplot(data=BFSAmp, aes(x=H_Flow))+
 geom_line( aes(y=cps_bkg)) + geom_line( aes(y=bkg)) +
 scale_y_log10(,sec.axis=sec_axis())
+
+## errorbar
+geom_errorbar( aes(x=H_Flow, ymin=F-Fstd, ymax=F+Fstd), width=0.5, alpha=0.9, size=0.75)
