@@ -25,3 +25,34 @@ ggplot(data=BFSAmp, aes(x=H_Flow, y=F19, by=Series, color=Series))+
     ggtitle("Fluorine") + 
     labs(x="H-Flow (mL/min)", y="counts per second", title="Fluorine")+
     theme(axis.ticks = element_line(size = 1, color="black"), axis.ticks.length = unit(.1, "cm"), axis.text = element_text(color="black", size=8))
+
+## Add second axis
+ggplot(data=BFSAmp, aes(x=H_Flow, y=F19, by=Series, color=Series))+
+  geom_smooth(size=0.75) + geom_point(size=3) +
+  scale_y_log10(limits = c(1e-1, 1e7), sec.axis = sec_axis(~.*1e1), labels = trans_format("log10", math_format(10^.x)))  +
+  scale_color_manual(values=c("#fcb990", "#ed6f26", "#3558ab")) +
+  ggtitle("Fluorine") + 
+  xlab(expression(H-Flow~(mL~min^{-1}))) + ylab(expression(Counts~(sec^{-1}))) +
+  theme(axis.ticks = element_line(size = 1, color="black"), 
+        axis.ticks.length = unit(.1, "cm"), 
+        axis.text = element_text(color="black", size=8),
+        axis.text.y = element_text(color = "#ed6f26"),
+        axis.text.y.right = element_text(color = "#3558ab"))
+
+## use require(scales) to allow trans format
+
+
+-------------
+##use require(scales) to allow trans format
+ggplot(data=raw_bkg, aes(x=x1, y=y1, by=Series, color=Series))+
+  geom_smooth(size=0.75) + geom_point(size=3) +
+  geom_smooth(data=raw, aes(x=x2, y=y2/1e3), size=0.75) + geom_point(data=raw, aes(x=x2, y=y2/1e3), size=3) +
+  geom_smooth(data=bkg, aes(x=x3, y=y3/1e3), size=0.75) + geom_point(data=raw, aes(x=x3, y=y3/1e3), size=3) +
+  scale_y_log10(labels = trans_format("log10", math_format(10^.x)), limits = c(1e-1, 1e5), 
+  sec.axis = sec_axis(~.*1e3)) +
+  scale_color_manual(values=c("#fcb990", "#ed6f26", "#3558ab")) +
+  ggtitle("Fluorine") + 
+  xlab(expression(H-Flow~(mL~min^{-1}))) + ylab(expression(Counts~(sec^{-1}))) +
+  theme(axis.ticks = element_line(size = 1, color="black"), 
+        axis.ticks.length = unit(.1, "cm"), 
+        axis.text = element_text(color="black", size=8))
